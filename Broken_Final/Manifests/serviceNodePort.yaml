@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-public
+  namespace: test
+  labels:
+    appname: node-app
+    component: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 30001
+    targetPort: 5000
+  selector:
+    appname: flask-app-pod
+    component: frontend

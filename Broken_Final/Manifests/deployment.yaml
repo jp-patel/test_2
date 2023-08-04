@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: clo835-test
+  namespace: test
+  labels:
+    appname: flask-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appname: flask-app-pod
+      version: v1
+  template:
+    metadata:
+      labels:
+        appname: flask-app-pod
+        component: frontend
+    spec:
+      containers:
+      - name: flask-app
+        image: app-test:v1.0
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+          - mountPath: /tmp/data
+            name: app-volume
+      imagePullSecrets:
+        - name: creds-test
+      volumes:
+        - name: app-test-volume
+          persistentVolumeClaim:
+            claimName: app-pvc
